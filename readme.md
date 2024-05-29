@@ -1,0 +1,1 @@
+Api de hubspot, actualziacion cron job de dealstage para cargar informacion a base de datos internas
