@@ -51,37 +51,14 @@ class hbapi():
     
 
     def get_user(self,id_user):
-        url = f'{self.url}objects/users/search'
+        url = f'{self.url}owners/{id_user}'
         headers = {'Authorization':f'Bearer {self.token}','Content-Type':'application/json'}
-        data ={
-            
-    "limit": 100,
-    "properties":["hs_given_name","hs_family_name"],
-    "filterGroups": [
-        {
-            "filters": [
-                {
-                    "propertyName": "id",
-                    "operator": "EQ",
-                    "value": id_user
-                }
-            ]
-        }
-    ]
-    
-}
+ 
         
-        response = requests.post(url=url,json=data,headers=headers)
+        response = requests.get(url=url,headers=headers)
         hbresult=response.json()
         
-        results = hbresult['results'][0]
-        user = results['properties']
-        
-        strike = user['hs_given_name']+' '+user['hs_family_name']
-       
-        
-        return strike
-        
+        return hbresult
 
     def get_deals_date(self,date):
         url = f'{self.url}objects/deals/search'
@@ -134,10 +111,13 @@ class hbapi():
 if __name__=='__main__':
     api = hbapi()
     datos = api.get_deals_date(dt.today())
-    
+    print (api.get_user(545056885))
     for i in range(len(datos)):
         print(datos[i]['id'])
         propiedades = datos[i]['properties']
+        owner_id = propiedades['hubspot_owner_id']
         print(propiedades['dealname'])
         print(api.transform_dealstage(propiedades['dealstage']))
+        print(api.get_user(owner_id))
+        print(owner_id)
         print('---------------------------------------')
