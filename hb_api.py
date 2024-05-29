@@ -58,7 +58,8 @@ class hbapi():
         response = requests.get(url=url,headers=headers)
         hbresult=response.json()
         
-        return hbresult
+        if hbresult:
+            return f"{hbresult['firstName']} {hbresult['lastName']}"
 
     def get_deals_date(self,date):
         url = f'{self.url}objects/deals/search'
@@ -119,5 +120,4 @@ if __name__=='__main__':
         print(propiedades['dealname'])
         print(api.transform_dealstage(propiedades['dealstage']))
         print(api.get_user(owner_id))
-        print(owner_id)
         print('---------------------------------------')
