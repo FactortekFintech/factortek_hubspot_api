@@ -44,8 +44,21 @@ class hbapi():
             return propiedades['name']
 
     
-    def get_associations():
-        pass
+    def get_associations(self, deal_id):
+        url = f'{self.url}objects/deals/{deal_id}/associations/Companies'
+        headers = {'Authorization':f'Bearer {self.token}','Content-Type':'application/json'}
+        
+        response = requests.get(url=url,headers=headers )
+        if response.status_code == 200:
+            data = response.json()
+        
+        if data:
+         results = data['results'][0]
+         return results['id']
+            
+        
+        
+        
     
     
     def transform_dealstage(self,dealstage):
@@ -130,8 +143,8 @@ class hbapi():
 
 if __name__=='__main__':
     api = hbapi()
-    datos = api.get_deals_date(dt.today())
-    print (api.get_user(545056885))
+    datos = api.get_deals_date('2024-05-29')
+    print(len(datos))
     for i in range(len(datos)):
         print(datos[i]['id'])
         propiedades = datos[i]['properties']
@@ -139,4 +152,7 @@ if __name__=='__main__':
         print(propiedades['dealname'])
         print(api.transform_dealstage(propiedades['dealstage']))
         print(api.get_user(owner_id))
+        print(api.get_companie(api.get_associations(datos[i]['id'])))
         print('---------------------------------------')
+    
+
