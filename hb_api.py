@@ -165,18 +165,20 @@ if __name__=='__main__':
         
         propiedades = datos[i]['properties']
         
-        print('Record ID: ',propiedades['hs_object_id'])
-        print('Deal Name: '+propiedades['dealname'])
-        print('Amount: '+propiedades['amount'])
-        print('Factory Facility: ',propiedades['factoring_facility'])
-        print('P Concentration: ',propiedades['p_concentration__'])
-        print('Deal Stage: ',api.transform_dealstage(propiedades['dealstage']))
-        owner = propiedades['hubspot_owner_id']
-        print('Owner: ',api.get_user(int(owner)))
-        print('Companie: ',api.get_companie(api.get_associations(datos[i]['id'])))
-        print('Ultima actividad: ',api.date_format(propiedades['notes_last_updated']))
-        print('created : ',api.date_format(propiedades['createdate']))
-        print('closedated : ',api.date_format(propiedades['closedate']))
+        # print('Record ID: ',propiedades['hs_object_id'])
+        # print('Deal Name: '+propiedades['dealname'])
+        # print('Amount: '+propiedades['amount'])
+        # print('Factory Facility: ',propiedades['factoring_facility'])
+        # print('P Concentration: ',propiedades['p_concentration__'])
+        # print('Deal Stage: ',api.transform_dealstage(propiedades['dealstage']))
+        # owner = propiedades['hubspot_owner_id']
+        # print('Owner: ',api.get_user(int(owner)))
+        # print('Companie: ',api.get_companie(api.get_associations(datos[i]['id'])))
+        # print('Ultima actividad: ',api.date_format(propiedades['notes_last_updated']))
+        # print('created : ',api.date_format(propiedades['createdate']))
+        # print('closedated : ',api.date_format(propiedades['closedate']))
+        
+        print(propiedades)
         
         
         print('---------------------------------------')
