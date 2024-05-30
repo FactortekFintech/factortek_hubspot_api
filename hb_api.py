@@ -31,6 +31,23 @@ class hbapi():
         return timestamp_ms
     
     
+    def get_companie(self,id_companie):
+        url = f'{self.url}/objects/companies/{id_companie}'
+        headers = {'Authorization':f'Bearer {self.token}','Content-Type':'application/json'}
+        
+        response = requests.get(url=url,headers=headers)
+        if response.status_code == 200:
+            data = response.json()
+
+        if data:
+            propiedades = data['properties']
+            return propiedades['name']
+
+    
+    def get_associations():
+        pass
+    
+    
     def transform_dealstage(self,dealstage):
         if dealstage =='contractsent':
             return 'PROSPECT F/U'
@@ -60,6 +77,8 @@ class hbapi():
         
         if hbresult:
             return f"{hbresult['firstName']} {hbresult['lastName']}"
+        
+
 
     def get_deals_date(self,date):
         url = f'{self.url}objects/deals/search'
@@ -84,7 +103,7 @@ class hbapi():
         "dealstage",
         "notes_last_updated",
         "hubspot_owner_id",
-        "quote"
+       "hs_projected_amount"
     ],
 
      "filterGroups": [
