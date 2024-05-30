@@ -86,10 +86,12 @@ class hbapi():
  
         
         response = requests.get(url=url,headers=headers)
-        hbresult=response.json()
-        
-        if hbresult:
+        if response.status_code == 200:
+            hbresult=response.json()
             return f"{hbresult['firstName']} {hbresult['lastName']}"
+        else: return 'No Owner'
+        
+    
         
 
 
@@ -143,16 +145,21 @@ class hbapi():
 
 if __name__=='__main__':
     api = hbapi()
-    datos = api.get_deals_date('2024-05-29')
+    datos = api.get_deals_date(dt.today())
     print(len(datos))
     for i in range(len(datos)):
-        print(datos[i]['id'])
+        
         propiedades = datos[i]['properties']
-        owner_id = propiedades['hubspot_owner_id']
-        print(propiedades['dealname'])
-        print(api.transform_dealstage(propiedades['dealstage']))
-        print(api.get_user(owner_id))
-        print(api.get_companie(api.get_associations(datos[i]['id'])))
+        
+        print('Record ID: ',propiedades['hs_object_id'])
+        print('Deal Name: '+propiedades['dealname'])
+        print('Amount: '+propiedades['amount'])
+        print('Factory Facility: ',propiedades['factoring_facility'])
+        print('P Concentration: ',propiedades['p_concentration__'])
+        print('Deal Stage: ',api.transform_dealstage(propiedades['dealstage']))
+        owner = propiedades['hubspot_owner_id']
+        print('Owner: ',api.get_user(int(owner)))
+        print('Companie: ',api.get_companie(api.get_associations(datos[i]['id'])))
         print('---------------------------------------')
-    
+
 
