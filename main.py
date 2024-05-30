@@ -11,7 +11,10 @@ if __name__=='__main__':
     print(len(datoshb))
     for i in range(len(datoshb)):
         propiedades = datoshb[i]['properties']
-        objectdba=dba.get_data_hb(propiedades['hs_object_id'])[0]
+        objectdba=dba.get_data_hb(propiedades['hs_object_id'])
+        if objectdba:
+            objectdba=objectdba[0]
+       
         
         if objectdba:
             if (api.transform_dealstage(propiedades['dealstage'])!=objectdba['Deal Stage']) or (api.get_user(propiedades['hubspot_owner_id'])!=objectdba['Deal owner']) :

@@ -19,7 +19,7 @@ class conection_db():
     cursor = conexion.cursor()
     
     def get_data_hb(self,record):
-        query = f'select * from template_dba_import_copy1 where `Record ID` = {record} order by `Last Activity Date` desc limit 1'
+        query = f'select * from template_dba_import where `Record ID` = {record} order by `Last Activity Date` desc limit 1'
         self.cursor.execute(query)
         columns = []
         data = []
@@ -33,7 +33,7 @@ class conection_db():
     
     def insert_data(self, record_id, factoryfacility=None, concentration=None, contractterm=None, ach=None, wire=None, reserve=None, factoringfee=None, duediligence=None, fueladvancecharge=None, fueladvance=None, fuelcard=None, dealstage=None, closedate=None, createdate=None, lastactivity=None, dealowner=None, weightedamount=None, companie=None, dealname=None, amount=None):
         query = """
-        INSERT INTO template_dba_import_copy1 (
+        INSERT INTO template_dba_import (
             `Record ID`, `Deal Name`, `Amount`, `Factoring Facility`, `P-Concentration %`, `P-Contract Term (Months)`, 
             `ACH`, `Wire`, `Reserve`, `P-Factoring Fee (%)`, `P-Due Diligence Fee $`, `Fuel Advance Charge`, 
             `Fuel Advance %`, `Fuel Card`, `Deal Stage`, `Close Date`, `Create Date`, `Last Activity Date`, 
