@@ -10,8 +10,22 @@ class hbapi():
     token = os.getenv('apikey')
     today = dt.today()
     
-    
-    
+    def date_format(self,dateob):
+        iso_date_str = dateob
+        if dateob:
+            try:
+                dte = dt.strptime(iso_date_str, '%Y-%m-%dT%H:%M:%S.%fZ')
+            except :
+                dte = dt.strptime(iso_date_str, '%Y-%m-%dT%H:%M:%SZ')
+
+        # Formatear el objeto datetime a la cadena deseada
+            formatted_date_str = dte.strftime('%Y-%m-%d %H:%M:%S')
+            if formatted_date_str:
+                return formatted_date_str
+            else:
+                return ''
+        else: return ''
+            
     def transform_date(self,date):
         # Asegurarse de que la fecha sea una cadena en el formato adecuado
         if isinstance(date, datetime.datetime):
@@ -160,6 +174,11 @@ if __name__=='__main__':
         owner = propiedades['hubspot_owner_id']
         print('Owner: ',api.get_user(int(owner)))
         print('Companie: ',api.get_companie(api.get_associations(datos[i]['id'])))
+        print('Ultima actividad: ',api.date_format(propiedades['notes_last_updated']))
+        print('created : ',api.date_format(propiedades['createdate']))
+        print('closedated : ',api.date_format(propiedades['closedate']))
+        
+        
         print('---------------------------------------')
 
 

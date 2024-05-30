@@ -19,7 +19,7 @@ class conection_db():
     cursor = conexion.cursor()
     
     def get_data_hb(self,record):
-        query = f'select * from template_dba_import where `Record ID` = {record}'
+        query = f'select * from template_dba_import_copy1 where `Record ID` = {record} order by `Last Activity Date` desc limit 1'
         self.cursor.execute(query)
         columns = []
         data = []
@@ -54,36 +54,50 @@ class conection_db():
     
 if __name__=='__main__':
     db = conection_db()
-    print(db.insert_data(
-    156165,                  # record_id
-    'Deal Name Example',     # dealname
-    50000.00,                # amount
-    'Factoring Facility A',  # factoryfacility
-    10.5,                    # concentration
-    12,                      # contractterm
-    True,                    # ach
-    True,                    # wire
-    5.0,                     # reserve
-    2.5,                     # factoringfee
-    1000.00,                 # duediligence
-    150.00,                  # fueladvancecharge
-    3.0,                     # fueladvance
-    'Fuel Card A',           # fuelcard
-    'Stage 1',               # dealstage
-    '2024-05-30',            # closedate
-    '2024-05-15',            # createdate
-    '2024-05-29',            # lastactivity
-    'John Doe',              # dealowner
-    48000.00,                # weightedamount
-    'Company A'              # companie
-))
-    # data = db.get_data_hb(10006655075)
-    # if data:
-    #     deal = data[0]
-    #     print(deal)
-    #     print(len(data))
-    # else:
-    #     print(len(data))
+#     print(db.insert_data(
+#     156165,                  # record_id
+#     'Deal Name Example',     # dealname
+#     50000.00,                # amount
+#     'Factoring Facility A',  # factoryfacility
+#     10.5,                    # concentration
+#     12,                      # contractterm
+#     True,                    # ach
+#     True,                    # wire
+#     5.0,                     # reserve
+#     2.5,                     # factoringfee
+#     1000.00,                 # duediligence
+#     150.00,                  # fueladvancecharge
+#     3.0,                     # fueladvance
+#     'Fuel Card A',           # fuelcard
+#     'Stage 1',               # dealstage
+#     '2024-05-30',            # closedate
+#     '2024-05-15',            # createdate
+#     '2024-05-29 12:05:01',            # lastactivity
+#     'John Doe',              # dealowner
+#     48000.00,                # weightedamount
+#     'Company A'              # companie
+# ))
+    hb_data_test = {
+        "Record ID": 156165,
+        'dealstage': 'Stage 1',
+        'Deal owner': 'John Doe',
+        
+    }
+    id = hb_data_test['Record ID']
+    data = db.get_data_hb(int(id))
+
+   
+    if data:
+        deal = data[0]
+        if int(deal['Record ID']) == hb_data_test['Record ID']:
+            if deal['Deal Stage'] != hb_data_test['dealstage'] or deal['Deal owner']!= hb_data_test['Deal owner']:
+                print(' aca si ingresa')
+            else:
+                print('el registro del log se encuentra en su ultimo update')
+        else:
+            print('por defecto se tiene que ingresar el registro para el log')
+    else:
+        print('no existe este registro')
         
     
  
