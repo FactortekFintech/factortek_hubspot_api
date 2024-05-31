@@ -1,14 +1,16 @@
 from bd_conexion import conection_db
 from hb_api import hbapi
 from datetime import datetime as dt
-
+import time
 
 if __name__=='__main__':
+    inicio_tiempo = time.time()
     api = hbapi()
     dba = conection_db()
     
     datoshb = api.get_deals_date(dt.today())
     print(len(datoshb))
+    
     for i in range(len(datoshb)):
         propiedades = datoshb[i]['properties']
         objectdba=dba.get_data_hb(propiedades['hs_object_id'])
@@ -69,4 +71,9 @@ if __name__=='__main__':
     weightedamount=propiedades['hs_projected_amount'],                # weightedamount
     companie=api.get_companie(api.get_associations(propiedades['hs_object_id']))              # companie
 ))
-        
+    fin_tiempo = time.time()
+    print('\n\n----------\n')
+    tiempo_transcurrido = fin_tiempo-inicio_tiempo
+    print('tiempo transcurrido: ',tiempo_transcurrido/60,' minutos')
+    
+    print('ejecutado a las : ',dt.now())
