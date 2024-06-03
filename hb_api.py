@@ -132,14 +132,15 @@ class hbapi():
         "dealstage",
         "notes_last_updated",
         "hubspot_owner_id",
-       "hs_projected_amount"
+       "hs_projected_amount",
+       "hs_lastmodifieddate"
     ],
 
      "filterGroups": [
         {
             "filters": [
                 {
-                    "propertyName": "notes_last_updated",
+                    "propertyName": "hs_lastmodifieddate",
                     "operator": "GTE",
                     "value": self.transform_date(date)
                 }

@@ -38,7 +38,7 @@ if __name__=='__main__':
     dealstage=api.transform_dealstage(propiedades['dealstage']),               # dealstage
     closedate=api.date_format(propiedades['closedate']),            # closedate
    createdate=api.date_format(propiedades['createdate']),            # createdate
-    lastactivity=api.date_format(propiedades['notes_last_updated']),            # lastactivity
+    lastactivity=api.date_format(propiedades['hs_lastmodifieddate']),            # lastactivity
     dealowner=api.get_user(propiedades['hubspot_owner_id']),              # dealowner
     weightedamount=propiedades['hs_projected_amount'],                # weightedamount
     companie=api.get_companie(api.get_associations(propiedades['hs_object_id']))              # companie
