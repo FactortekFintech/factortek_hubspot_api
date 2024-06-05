@@ -53,9 +53,10 @@ class hbapi():
         if response.status_code == 200:
             data = response.json()
 
-        if data:
-            propiedades = data['properties']
-            return propiedades['name']
+            if data:
+                propiedades = data['properties']
+                return propiedades['name']
+        else: return None
 
     
     def get_associations(self, deal_id):
@@ -66,10 +67,11 @@ class hbapi():
         if response.status_code == 200:
             data = response.json()
         
-        if data:
-         results = data['results'][0]
-         return results['id']
-            
+            if data and len(data['results'])>0:
+                results = data['results'][0]
+                return results['id']
+            else: return 0
+        else: return 0    
         
         
         
