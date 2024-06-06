@@ -46,7 +46,7 @@ class hbapi():
     
     
     def get_companie(self,id_companie):
-        url = f'{self.url}/objects/companies/{id_companie}'
+        url = f'{self.url}/objects/companies/{id_companie}?properties=us_dot_number,name,type_of_truck'
         headers = {'Authorization':f'Bearer {self.token}','Content-Type':'application/json'}
         
         response = requests.get(url=url,headers=headers)
@@ -55,7 +55,12 @@ class hbapi():
 
             if data:
                 propiedades = data['properties']
-                return propiedades['name']
+                companie = {
+                    'name':propiedades['name'],
+                    'id': propiedades['hs_object_id'],
+                    'type_of_truck':propiedades['type_of_truck']
+                }
+                return companie
         else: return None
 
     

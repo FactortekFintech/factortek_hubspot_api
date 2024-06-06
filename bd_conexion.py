@@ -31,22 +31,22 @@ class conection_db():
         
         return data
     
-    def insert_data(self, record_id, factoryfacility=None, concentration=None, contractterm=None, ach=None, wire=None, reserve=None, factoringfee=None, duediligence=None, fueladvancecharge=None, fueladvance=None, fuelcard=None, dealstage=None, closedate=None, createdate=None, lastactivity=None, dealowner=None, weightedamount=None, companie=None, dealname=None, amount=None):
+    def insert_data(self, record_id, factoryfacility=None, concentration=None, contractterm=None, ach=None, wire=None, reserve=None, factoringfee=None, duediligence=None, fueladvancecharge=None, fueladvance=None, fuelcard=None, dealstage=None, closedate=None, createdate=None, lastactivity=None, dealowner=None, weightedamount=None, companie=None, dealname=None, amount=None,idCompanie=None,truckt=None):
         query = """
         INSERT INTO template_dba_import (
             `Record ID`, `Deal Name`, `Amount`, `Factoring Facility`, `P-Concentration %`, `P-Contract Term (Months)`, 
             `ACH`, `Wire`, `Reserve`, `P-Factoring Fee (%)`, `P-Due Diligence Fee $`, `Fuel Advance Charge`, 
             `Fuel Advance %`, `Fuel Card`, `Deal Stage`, `Close Date`, `Create Date`, `Last Activity Date`, 
-            `Deal owner`, `Weighted amount`, `Associated Company`
+            `Deal owner`, `Weighted amount`, `Associated Company`,`Associated Company IDs`,type_of_truck
         ) VALUES (
-            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s
         )"""
 
         data = (
             record_id, dealname, amount, factoryfacility, concentration, contractterm, 
             ach, wire, reserve, factoringfee, duediligence, fueladvancecharge, fueladvance, 
             fuelcard, dealstage, closedate, createdate, lastactivity, dealowner, 
-            weightedamount, companie
+            weightedamount, companie,idCompanie,truckt
         )
 
         try:
