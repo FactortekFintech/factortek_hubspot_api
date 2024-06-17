@@ -61,7 +61,11 @@ class hbapi():
                     'type_of_truck':propiedades['type_of_truck']
                 }
                 return companie
-        else: return None
+        else: return {
+                    'name':None,
+                    'id': None,
+                    'type_of_truck':None
+                }
 
     
     def get_associations(self, deal_id):
