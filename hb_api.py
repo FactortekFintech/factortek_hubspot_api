@@ -120,51 +120,100 @@ class hbapi():
         
 
 
-    def get_deals_date(self,date):
+#     def get_deals_date(self,date):
+#         url = f'{self.url}objects/deals/search'
+#         headers = {'Authorization':f'Bearer {self.token}','Content-Type':'application/json'}
+#         data = {
+#     "properties": [
+#         "dealname",
+#         "amount",
+#         "factoring_facility",
+#         "p_concentration__",
+#         "p_contract_term__months_",
+#         "ach",
+#         "wire",
+#         "reserve",
+#         "pfactoringfee",
+#         "p_due_diligence_fee__",
+#         "fuel_advance_charge",
+#         "fuel_advance__",
+#         "fuel_card",
+#         "closedate",
+#         "createdate",
+#         "dealstage",
+#         "notes_last_updated",
+#         "hubspot_owner_id",
+#        "hs_projected_amount",
+#        "hs_lastmodifieddate"
+#     ],
+
+#      "filterGroups": [
+#         {
+#             "filters": [
+#                 {
+#                     "propertyName": "hs_lastmodifieddate",
+#                     "operator": "GTE",
+#                     "value":  self.transform_date(date)
+#                 }
+#             ]
+#         }
+#     ],
+#     "limit":100
+
+# }
+#         response = requests.post(url=url, json=data, headers=headers)
+#         hbresult = response.json()
+#         print(hbresult)
+#         print(hbresult['total'])
+#         if hbresult['paging']:
+#             print('si')
+#         else: print('no')
+#         results = hbresult['results']
+#         return results
+
+    def get_deals_date(self, date):
         url = f'{self.url}objects/deals/search'
-        headers = {'Authorization':f'Bearer {self.token}','Content-Type':'application/json'}
+        headers = {'Authorization': f'Bearer {self.token}', 'Content-Type': 'application/json'}
         data = {
-    "properties": [
-        "dealname",
-        "amount",
-        "factoring_facility",
-        "p_concentration__",
-        "p_contract_term__months_",
-        "ach",
-        "wire",
-        "reserve",
-        "pfactoringfee",
-        "p_due_diligence_fee__",
-        "fuel_advance_charge",
-        "fuel_advance__",
-        "fuel_card",
-        "closedate",
-        "createdate",
-        "dealstage",
-        "notes_last_updated",
-        "hubspot_owner_id",
-       "hs_projected_amount",
-       "hs_lastmodifieddate"
-    ],
-
-     "filterGroups": [
-        {
-            "filters": [
+            "properties": [
+                "dealname", "amount", "factoring_facility", "p_concentration__",
+                "p_contract_term__months_", "ach", "wire", "reserve", "pfactoringfee",
+                "p_due_diligence_fee__", "fuel_advance_charge", "fuel_advance__",
+                "fuel_card", "closedate", "createdate", "dealstage", "notes_last_updated",
+                "hubspot_owner_id", "hs_projected_amount", "hs_lastmodifieddate"
+            ],
+            "filterGroups": [
                 {
-                    "propertyName": "hs_lastmodifieddate",
-                    "operator": "GTE",
-                    "value": self.transform_date(date)
+                    "filters": [
+                        {
+                            "propertyName": "hs_lastmodifieddate",
+                            "operator": "GTE",
+                            "value":  self.transform_date(date)
+                        }
+                    ]
                 }
-            ]
+            ],
+            "limit": 100
         }
-    ],
-    "limit":100
-
-}
-        response = requests.post(url=url, json=data, headers=headers)
-        hbresult = response.json()
-        results = hbresult['results']
-        return results
+        
+        all_results = []
+        while True:
+            response = requests.post(url=url, json=data, headers=headers)
+            response.raise_for_status()  # Esto lanzará una excepción si la solicitud falla
+            hbresult = response.json()
+            
+            # Agregar los resultados de esta página a la lista total
+            all_results.extend(hbresult.get('results', []))
+            
+            # Verificar si hay más páginas
+            paging = hbresult.get('paging')
+            if paging and 'next' in paging and 'after' in paging['next']:
+                # Actualizar los datos de la solicitud con el token de paginación
+                data['after'] = paging['next']['after']
+            else:
+                break
+        
+        return all_results
        
         
 
@@ -173,24 +222,26 @@ if __name__=='__main__':
     api = hbapi()
     datos = api.get_deals_date(dt.today())
     print(len(datos))
+    
+ 
     for i in range(len(datos)):
         
         propiedades = datos[i]['properties']
         
-        # print('Record ID: ',propiedades['hs_object_id'])
-        # print('Deal Name: '+propiedades['dealname'])
-        # print('Amount: '+propiedades['amount'])
-        # print('Factory Facility: ',propiedades['factoring_facility'])
-        # print('P Concentration: ',propiedades['p_concentration__'])
-        # print('Deal Stage: ',api.transform_dealstage(propiedades['dealstage']))
-        # owner = propiedades['hubspot_owner_id']
-        # print('Owner: ',api.get_user(int(owner)))
-        # print('Companie: ',api.get_companie(api.get_associations(datos[i]['id'])))
-        # print('Ultima actividad: ',api.date_format(propiedades['notes_last_updated']))
-        # print('created : ',api.date_format(propiedades['createdate']))
-        # print('closedated : ',api.date_format(propiedades['closedate']))
+        print('Record ID: ',propiedades['hs_object_id'])
+        print('Deal Name: '+propiedades['dealname'])
+        print('Amount: '+propiedades['amount'])
+        print('Factory Facility: ',propiedades['factoring_facility'])
+        print('P Concentration: ',propiedades['p_concentration__'])
+        print('Deal Stage: ',api.transform_dealstage(propiedades['dealstage']))
+        owner = propiedades['hubspot_owner_id']
+        print('Owner: ',api.get_user(int(owner)))
+        print('Companie: ',api.get_companie(api.get_associations(datos[i]['id'])))
+        print('Ultima actividad: ',api.date_format(propiedades['notes_last_updated']))
+        print('created : ',api.date_format(propiedades['createdate']))
+        print('closedated : ',api.date_format(propiedades['closedate']))
         
-        print(propiedades)
+        # print(propiedades)
         
         
         print('---------------------------------------')

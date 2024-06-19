@@ -91,6 +91,9 @@ if __name__=='__main__':
                 idCompanie=api.get_companie(api.get_associations(propiedades['hs_object_id']))['id'],
                 truckt=api.get_companie(api.get_associations(propiedades['hs_object_id']))['type_of_truck']
             ))
+            print(i)
+            print(propiedades['hs_object_id'])
+            
     fin_tiempo = time.time()
     print('\n\n----------\n')
     tiempo_transcurrido = fin_tiempo-inicio_tiempo
