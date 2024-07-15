@@ -9,7 +9,7 @@ if __name__=='__main__':
     dba = conection_db()
     
     datoshb = api.get_deals_date(dt.today())
-    # datoshb = api.get_deals_date('2024-06-12')
+    # datoshb = api.get_deals_date('2024-07-09')
     print(len(datoshb))
     
     for i in range(len(datoshb)):
