@@ -100,3 +100,6 @@ if __name__=='__main__':
     print('tiempo transcurrido: ',tiempo_transcurrido/60,' minutos')
     
     print('ejecutado a las : ',dt.now())
+    print('by : Juan José Jara Alvarez')
+    ####ejecución
+    
