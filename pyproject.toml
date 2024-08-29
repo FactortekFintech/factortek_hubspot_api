@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "hubspot"
+version = "1"
+description = "extract deals information for count by stages"
+authors = ["juanj72 <juan.jara@campusucc.edu.co>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = "^1.0.1"
+certifi = "^2024.7.4"
+charset-normalizer = "^3.3.2"
+idna = "^3.8"
+mysql-connector-python = "^9.0.0"
+requests = "^2.32.3"
+urllib3 = "^2.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
